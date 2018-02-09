@@ -29,8 +29,18 @@ function readProducts() {
     function idUserSelect() {
   console.log("Selecting all products with ID: " + idSelect + "\n");
   con.query("SELECT * FROM products WHERE item_id=? OR stock_quantity=?", [idSelect, stockQuant], function(err, res) {
+     
+
+
      for (var i = 0; i < res.length; i++) {
-      console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
+     	if(res[i].stock_quantity < stockQuant){
+     		console.log("Sorry. We don't have enough stock to satisfy this order.\n Please order " + res[i].stock_quantity + " or less." )
+     		startPrompt();
+
+     	}
+     	else{
+      		console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
+  		}
     }
    
     console.log("-----------------------------------");
@@ -41,7 +51,9 @@ function readProducts() {
     con.end();
   });
 }
-  prompt.start();
+ prompt.start();
+  function startPrompt(){
+ 
 
 prompt.get(['id', 'quant'], function(err, results){
 	
@@ -56,4 +68,5 @@ prompt.get(['id', 'quant'], function(err, results){
 	}
 });
 
-
+}
+startPrompt();
