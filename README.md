@@ -14,4 +14,4 @@ The program will list the total price, quantity of the item purchased.
 
 It will display the remaining items in the database after a purchase.  
 
-![Alt Text](bamazon.gif) 
+![Alt Text](bamazongif.gif) 
