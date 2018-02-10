@@ -34,15 +34,16 @@ function readProducts() {
   		con.query("SELECT * FROM products WHERE item_id=? OR stock_quantity=?", [idSelect, stockQuant], function(err, res) {
      
 
-	  		
+	  		// console.log("this is res.length ", res.length);
 	     for (var i = 0; i < res.length; i++) {
 	     	if(res[i].stock_quantity < stockQuant){
 	     		console.log("Sorry. We don't have enough stock to satisfy this order.\n Please order " + res[i].stock_quantity + " or less." )
+
 	     		startPrompt();
 
 	     	}
 	     	else{
-	      		console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
+	      		// console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + res[i].stock_quantity);
 	      		total = res[i].price * stockQuant;
 	      		function updateProduct() {
 	  				console.log("Updating all products");
@@ -55,6 +56,7 @@ function readProducts() {
 	      					{
 	        					item_id: res[i].item_id
 	      					}
+
 	    				],
 	    				function(err, res) {
 	    					
@@ -62,11 +64,15 @@ function readProducts() {
 	      					
 	      					
 	    				}
+
 	  				);
 
 
 				}
 				updateProduct();
+				stockQuant = res[i].stock_quantity - stockQuant;
+				console.log(res[i].item_id + " | " + res[i].product_name + " | " + res[i].department_name + " | " + res[i].price + " | " + stockQuant);
+
 	  		}
 	    }
 	   
